@@ -1,12 +1,17 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./**/*.{js,html}"],
+const plugin = require("tailwindcss/plugin");
+
+module.exports = {
+  content: ["./index.html", "./main.js"],
   theme: {
     extend: {
+      screens: {
+        xs: "425px",
+      },
       colors: {
         bkg: "#171819",
         muted: "#C9CBCF",
-        accent: "#66ccc1",
+        accent: "#66CCC1",
       },
       dropShadow: {
         "text-sm": "1px 1px 0px rgba(0, 0, 0, 0.90)",
@@ -20,11 +25,11 @@ export default {
           sm: "2rem",
           lg: "4rem",
           xl: "5rem",
-          "2xl": "6rem"
-        }
+          "2xl": "6rem",
+        },
       },
       fontFamily: {
-        sans: ["Outfit", "sans-serif"]
+        sans: ["Outfit", "sans-serif"],
       },
       fontSize: {
         sm: ["clamp(1.00rem, calc(0.92rem + 0.39vw), 1.20rem)", "1.4"],
@@ -36,9 +41,23 @@ export default {
         "4xl": ["clamp(2.03rem, calc(1.03rem + 4.98vw), 4.58rem)", "1"],
         "5xl": ["clamp(2.28rem, calc(0.94rem + 6.71vw), 5.72rem)", "1"],
         "6xl": ["clamp(2.57rem, calc(0.78rem + 8.95vw), 7.15rem)", "1"],
-      }
+      },
     },
   },
-  plugins: [],
-}
-
+  plugins: [
+    plugin(( { addUtilities, theme }) => {
+      addUtilities({
+        ".fade-up": {
+          transition:
+            "transform 1s cubic-bezier(0.64, 0.04, 0.26, 0.87), opacity 0.8s cubic-bezier(0.64, 0.04, 0.26, 0.87)",
+          opacity: theme("opacity.0"),
+          transform: "translate3d(0, 2rem, 0)",
+        },
+        ".faded": {
+          opacity: theme("opacity.100"),
+          transform: "translate3d(0, 0, 0)",
+        },
+      });
+    })
+  ],
+};
